@@ -1,0 +1,7 @@
+build/
+build-*/
+dist/
+*.o
+*.spdif
+.cache/
+compile_commands.json

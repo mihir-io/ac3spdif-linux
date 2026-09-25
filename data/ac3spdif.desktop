@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=AC3SPDIF
+GenericName=Surround Bitstream Encoder
+Comment=Encode all system audio to Dolby Digital or DTS and bitstream it over S/PDIF or HDMI
+Exec=ac3spdif-app
+Icon=ac3spdif
+Terminal=false
+Categories=AudioVideo;Audio;
+Keywords=AC-3;AC3;DTS;Dolby;S/PDIF;SPDIF;TOSLINK;HDMI;bitstream;surround;5.1;
+StartupNotify=false

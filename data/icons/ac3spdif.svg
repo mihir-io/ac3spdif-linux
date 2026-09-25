@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The application icon: an optical S/PDIF socket with a TOSLINK ferrule
+     seated in it and the red light of a live connection inside that. TOSLINK
+     really does carry visible red light, so this is a literal picture of the
+     job rather than a generic speaker glyph. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#242b38"/>
+      <stop offset="1" stop-color="#0a0d12"/>
+    </linearGradient>
+    <radialGradient id="spill" cx="64" cy="64" r="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff5226" stop-opacity="0.68"/>
+      <stop offset="0.45" stop-color="#ff3d1a" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ff3314" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dbe3ec"/>
+      <stop offset="0.55" stop-color="#667385"/>
+      <stop offset="1" stop-color="#b8c4d4"/>
+    </linearGradient>
+    <radialGradient id="emitter" cx="64" cy="61" r="19" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe6c7"/>
+      <stop offset="0.38" stop-color="#ff6b2b"/>
+      <stop offset="1" stop-color="#bd1a05"/>
+    </radialGradient>
+    <clipPath id="clip"><rect x="11.5" y="11.5" width="105" height="105" rx="23.5"/></clipPath>
+  </defs>
+  <rect x="11.5" y="11.5" width="105" height="105" rx="23.5" fill="url(#plate)"/>
+  <rect x="11.5" y="11.5" width="105" height="105" rx="23.5" fill="url(#spill)" clip-path="url(#clip)"/>
+  <!-- socket: square with the top corners chamfered, the keying that stops
+       a plug going in upside down -->
+  <path d="M 27.75 100.25 L 100.25 100.25 L 100.25 42.25 L 85.75 27.75 L 42.25 27.75 L 27.75 42.25 Z"
+        fill="#090b0f" stroke="#99aac7" stroke-width="3.25" stroke-linejoin="round"/>
+  <circle cx="64" cy="64" r="21.5" fill="url(#metal)"/>
+  <circle cx="64" cy="64" r="17.5" fill="#080a0d"/>
+  <circle cx="64" cy="64" r="15.75" fill="url(#emitter)"/>
+</svg>
