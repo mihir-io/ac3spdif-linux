@@ -231,7 +231,8 @@ beyond the standard repositories is needed. The Flatpak is built with
 whose ffmpeg carries the AC-3 and DTS encoders and the IEC 61937 muxer, and
 builds the appindicator stack in, so the bundle is self-contained. The
 packaging lives in `packaging/fedora`, `packaging/debian` and
-`packaging/flatpak`.
+`packaging/flatpak`. `./scripts/release.sh` publishes the three as a GitHub
+release for the pushed tag, with the notes from `packaging/release-notes/`.
 
 Inside the Flatpak the command line is
 `flatpak run --command=ac3spdif org.ac3spdif.App …` and the probe is
