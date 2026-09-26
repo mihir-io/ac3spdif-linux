@@ -27,7 +27,7 @@ StatusWindow::StatusWindow(GtkApplication* app) {
     window_ = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window_), fmt("ac3spdif {}", AC3SPDIF_VERSION).c_str());
     gtk_window_set_default_size(GTK_WINDOW(window_), 560, 640);
-    gtk_window_set_icon_name(GTK_WINDOW(window_), "ac3spdif");
+    gtk_window_set_icon_name(GTK_WINDOW(window_), AC3SPDIF_APP_ID);
     g_signal_connect(window_, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), nullptr);
     build();
 }

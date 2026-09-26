@@ -7,9 +7,10 @@
 #include <csignal>
 
 #include "app/app.h"
+#include "engine/version.h"
 
 int main(int argc, char** argv) {
-    GtkApplication* application = gtk_application_new("org.ac3spdif.App", static_cast<GApplicationFlags>(0));
+    GtkApplication* application = gtk_application_new(AC3SPDIF_APP_ID, static_cast<GApplicationFlags>(0));
     ac3spdif::App* app = nullptr;
     g_signal_connect(application, "activate", G_CALLBACK(+[](GtkApplication* application, gpointer data) {
         auto** slot = static_cast<ac3spdif::App**>(data);

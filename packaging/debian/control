@@ -1,0 +1,40 @@
+Source: ac3spdif
+Section: sound
+Priority: optional
+Maintainer: Mihir Joshi <mihir3535@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               cmake (>= 3.20),
+               ninja-build,
+               pkgconf,
+               libpipewire-0.3-dev,
+               libasound2-dev,
+               libavcodec-dev,
+               libavformat-dev,
+               libavutil-dev,
+               libswresample-dev,
+               libglib2.0-dev,
+               libgtk-3-dev,
+               libayatana-appindicator3-dev,
+               desktop-file-utils,
+               appstream
+Standards-Version: 4.6.2
+Homepage: https://github.com/mihir-io/ac3spdif-linux
+Rules-Requires-Root: no
+
+Package: ac3spdif
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: pipewire, wireplumber
+Suggests: gnome-shell-extension-appindicator
+Description: Dolby Digital Live and DTS Connect for Linux
+ Captures all system audio, encodes it to AC-3 (Dolby Digital) or DTS in real
+ time, and bitstreams the result out an S/PDIF or HDMI interface as an IEC
+ 61937 data burst, so a receiver decodes 5.1 itself instead of being handed
+ stereo PCM. What sound cards on other platforms call Dolby Digital Live or
+ DTS Connect.
+ .
+ A virtual PipeWire sink becomes the system output; whatever plays into it is
+ encoded in-process with ffmpeg's libraries and sent as a native passthrough
+ stream to the digital output, or straight to the ALSA device for the lowest
+ latency. Includes the ac3spdif-app tray application, the ac3spdif command
+ line, which can run as a systemd user service from login, and ac3spdif-probe.

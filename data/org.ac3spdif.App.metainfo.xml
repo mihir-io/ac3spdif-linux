@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.ac3spdif.App</id>
+  <name>AC3SPDIF</name>
+  <summary>Dolby Digital Live and DTS Connect for Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="org.ac3spdif">
+    <name>Mihir Joshi</name>
+  </developer>
+  <description>
+    <p>
+      AC3SPDIF captures all system audio, encodes it to AC-3 (Dolby Digital) or
+      DTS in real time, and bitstreams the result out an S/PDIF or HDMI
+      interface as an IEC 61937 data burst, so a receiver decodes 5.1 itself
+      instead of being handed stereo PCM. It is what sound cards on other
+      platforms call Dolby Digital Live or DTS Connect.
+    </p>
+    <p>
+      A virtual PipeWire sink becomes the system output; whatever plays into it
+      is encoded in-process with ffmpeg's libraries and sent as a native
+      passthrough stream to the digital output, or straight to the ALSA device
+      for the lowest latency. The tray app shows buffer, drift and underrun
+      figures live, with per-channel meters and a latency slider; the command
+      line does the same with no UI and can run as a background service from
+      login.
+    </p>
+    <ul>
+      <li>AC-3 at up to 640 kb/s and DTS at up to 1536 kb/s, 5.1 or stereo</li>
+      <li>Native PipeWire passthrough or direct ALSA transport</li>
+      <li>Clock drift correction so two independent audio clocks stay in step</li>
+      <li>A self-test tone per channel to verify the receiver end</li>
+    </ul>
+  </description>
+  <url type="homepage">https://github.com/mihir-io/ac3spdif-linux</url>
+  <url type="bugtracker">https://github.com/mihir-io/ac3spdif-linux/issues</url>
+  <url type="vcs-browser">https://github.com/mihir-io/ac3spdif-linux</url>
+  <launchable type="desktop-id">org.ac3spdif.App.desktop</launchable>
+  <provides>
+    <binary>ac3spdif</binary>
+    <binary>ac3spdif-app</binary>
+    <binary>ac3spdif-probe</binary>
+  </provides>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+  </categories>
+  <keywords>
+    <keyword>AC-3</keyword>
+    <keyword>DTS</keyword>
+    <keyword>Dolby</keyword>
+    <keyword>S/PDIF</keyword>
+    <keyword>TOSLINK</keyword>
+    <keyword>HDMI</keyword>
+    <keyword>bitstream</keyword>
+    <keyword>surround</keyword>
+    <keyword>5.1</keyword>
+  </keywords>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-09-25">
+      <description>
+        <p>First release: AC-3 and DTS encoding, PipeWire passthrough and direct ALSA transports, tray app and command line.</p>
+      </description>
+    </release>
+  </releases>
+</component>

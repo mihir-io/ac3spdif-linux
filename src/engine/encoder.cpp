@@ -56,10 +56,6 @@ void Encoder::fail(const std::string& message) {
     if (on_log) on_log("encoder: " + message);
 }
 
-int Encoder::write_trampoline(void* opaque, const uint8_t* data, int size) {
-    return static_cast<Encoder*>(opaque)->on_write(data, size);
-}
-
 // libavformat hands over each muxed burst here, from the feed thread.
 int Encoder::on_write(const uint8_t* data, int size) {
     int pushed = 0;
@@ -147,7 +143,12 @@ void Encoder::open_codec() {
     if (res < 0 || !format_ctx_)
         throw Failure("this libavformat has no 'spdif' muxer; install a full ffmpeg build");
     auto* buffer = static_cast<unsigned char*>(av_malloc(kAvioBufferSize));
-    avio_ = avio_alloc_context(buffer, kAvioBufferSize, 1, this, nullptr, write_trampoline, nullptr);
+    // The write callback's buffer is const from libavformat 61 (ffmpeg 7) and
+    // was not before; a generic lambda takes whichever this build declares.
+    avio_ = avio_alloc_context(buffer, kAvioBufferSize, 1, this, nullptr,
+                               [](void* opaque, auto* data, int size) -> int {
+                                   return static_cast<Encoder*>(opaque)->on_write(data, size);
+                               }, nullptr);
     if (!avio_) { av_free(buffer); throw Failure("cannot allocate the muxer I/O context"); }
     format_ctx_->pb = avio_;
     format_ctx_->flags |= AVFMT_FLAG_CUSTOM_IO | AVFMT_FLAG_FLUSH_PACKETS;

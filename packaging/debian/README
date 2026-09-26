@@ -1,0 +1,3 @@
+Debian packaging for ac3spdif. dpkg-buildpackage expects this directory at
+the top of the source tree as debian/; ./scripts/package.sh deb copies it
+there inside a clean Ubuntu container and builds the .deb into ./dist.

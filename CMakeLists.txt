@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.20)
 # binaries and the package metadata cannot drift apart.
 file(STRINGS src/engine/version.h AC3SPDIF_VERSION_LINE REGEX "AC3SPDIF_VERSION \"")
 string(REGEX REPLACE ".*\"([0-9.]+)\".*" "\\1" AC3SPDIF_VERSION "${AC3SPDIF_VERSION_LINE}")
+file(STRINGS src/engine/version.h AC3SPDIF_APP_ID_LINE REGEX "AC3SPDIF_APP_ID \"")
+string(REGEX REPLACE ".*\"([A-Za-z0-9._-]+)\".*" "\\1" AC3SPDIF_APP_ID "${AC3SPDIF_APP_ID_LINE}")
 
 project(ac3spdif VERSION ${AC3SPDIF_VERSION} LANGUAGES CXX)
 
@@ -76,8 +78,10 @@ if(BUILD_APP AND EXISTS ${CMAKE_SOURCE_DIR}/src/app/main.cpp)
   endif()
   install(TARGETS ac3spdif-app RUNTIME DESTINATION bin)
   install(DIRECTORY data/icons/ DESTINATION share/ac3spdif/icons)
-  install(FILES data/icons/ac3spdif.svg DESTINATION share/icons/hicolor/scalable/apps)
-  install(FILES data/ac3spdif.desktop DESTINATION share/applications)
+  install(FILES data/icons/ac3spdif.svg DESTINATION share/icons/hicolor/scalable/apps
+    RENAME ${AC3SPDIF_APP_ID}.svg)
+  install(FILES data/${AC3SPDIF_APP_ID}.desktop DESTINATION share/applications)
+  install(FILES data/${AC3SPDIF_APP_ID}.metainfo.xml DESTINATION share/metainfo)
 endif()
 
 # --- tests -------------------------------------------------------------------

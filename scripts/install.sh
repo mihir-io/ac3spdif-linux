@@ -9,10 +9,12 @@ PREFIX="${PREFIX:-$HOME/.local}"
 if [ "${UNINSTALL:-0}" = "1" ]; then
   rm -f "$PREFIX/bin/ac3spdif" "$PREFIX/bin/ac3spdif-app" "$PREFIX/bin/ac3spdif-probe"
   rm -rf "$PREFIX/share/ac3spdif"
-  rm -f "$PREFIX/share/applications/ac3spdif.desktop" \
-        "$PREFIX/share/icons/hicolor/scalable/apps/ac3spdif.svg"
+  rm -f "$PREFIX/share/applications/org.ac3spdif.App.desktop" \
+        "$PREFIX/share/icons/hicolor/scalable/apps/org.ac3spdif.App.svg" \
+        "$PREFIX/share/metainfo/org.ac3spdif.App.metainfo.xml"
   systemctl --user disable --now ac3spdif.service 2>/dev/null || true
-  rm -f "$HOME/.config/systemd/user/ac3spdif.service" "$HOME/.config/autostart/ac3spdif.desktop"
+  rm -f "$HOME/.config/systemd/user/ac3spdif.service" \
+        "$HOME/.config/autostart/org.ac3spdif.App.desktop" "$HOME/.config/autostart/ac3spdif.desktop"
   echo "removed from $PREFIX"
   exit 0
 fi

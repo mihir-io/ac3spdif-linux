@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- The application icon: an optical S/PDIF socket with a TOSLINK ferrule
-     seated in it and the red light of a live connection inside that. TOSLINK
-     really does carry visible red light, so this is a literal picture of the
-     job rather than a generic speaker glyph. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- The application icon: an optical S/PDIF socket with a TOSLINK ferrule
+       seated in it and the red light of a live connection inside that. TOSLINK
+       really does carry visible red light, so this is a literal picture of the
+       job rather than a generic speaker glyph. -->
   <defs>
     <linearGradient id="plate" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#242b38"/>

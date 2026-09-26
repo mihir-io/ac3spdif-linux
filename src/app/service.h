@@ -1,6 +1,11 @@
 // Service mode: a systemd user unit that runs the CLI at login, and an XDG
 // autostart entry that opens the app at login. Two different things, easy to
 // confuse, so they are kept apart here as they are in the menu.
+//
+// Both are files the host's systemd and desktop read, and both work from
+// inside a Flatpak: the Exec lines then go through `flatpak run`, the files go
+// to the host's config directory, which the sandbox exposes at its host path,
+// and systemd is driven over its D-Bus API rather than by spawning systemctl.
 #pragma once
 
 #include <string>

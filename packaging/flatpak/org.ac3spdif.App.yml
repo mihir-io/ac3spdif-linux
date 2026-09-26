@@ -1,0 +1,61 @@
+# Built by ./scripts/package.sh flatpak. Self-contained: the freedesktop
+# runtime carries libpipewire, alsa-lib, GLib, GTK 3 and ffmpeg's libraries,
+# whose libavcodec includes the AC-3 and DTS encoders and whose libavformat
+# includes the IEC 61937 muxer (verified on 25.08 and 26.08); the appindicator
+# stack is not in the runtime, so it is built in from the Flathub recipe.
+app-id: org.ac3spdif.App
+runtime: org.freedesktop.Platform
+runtime-version: '26.08'
+sdk: org.freedesktop.Sdk
+command: ac3spdif-app
+# The command line and the probe: flatpak run --command=ac3spdif org.ac3spdif.App ...
+
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # The virtual sink, capture and the passthrough output are all native
+  # PipeWire clients on the session's socket.
+  # (The client declares media.category=Manager, which is what WirePlumber
+  # requires before a sandboxed client may change the default sink.)
+  - --filesystem=xdg-run/pipewire-0
+  # The direct ALSA transport opens the sound card itself.
+  - --device=all
+  # Tray icon through the StatusNotifier protocol.
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # The ALSA device reservation protocol: ask WirePlumber to release the card,
+  # then hold the reservation name while streaming.
+  - --talk-name=org.freedesktop.ReserveDevice1.*
+  - --own-name=org.freedesktop.ReserveDevice1.*
+  # Service mode and launch-at-login write to the host's config directory and
+  # drive the user's systemd over D-Bus; nothing on the host runs from /app.
+  - --talk-name=org.freedesktop.systemd1
+  - --filesystem=xdg-config/systemd/user:create
+  - --filesystem=xdg-config/autostart:create
+
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/gtk-doc
+  - /share/man
+  - '*.la'
+  - '*.a'
+
+modules:
+  - libayatana-appindicator-gtk3.json
+
+  - name: ac3spdif
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DBUILD_APP=ON
+      - -DBUILD_TESTS=ON
+    run-tests: true
+    sources:
+      - type: dir
+        path: ../..
+        skip:
+          - .git
+          - .cache
+          - .flatpak-builder
+          - build
+          - dist

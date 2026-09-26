@@ -207,6 +207,40 @@ GTK 3 and libappindicator (Ayatana on Debian and Ubuntu). `BUILD_APP=OFF
 ./scripts/build.sh` skips the tray app and the GTK dependency for a headless
 box.
 
+### Packages
+
+`scripts/package.sh` builds installable packages into `dist/`, each in a clean
+environment so the result depends only on what the package declares:
+
+```sh
+./scripts/package.sh rpm       # Fedora:        dist/ac3spdif-0.1.0-1.fc44.x86_64.rpm
+./scripts/package.sh deb       # Ubuntu/Debian: dist/ac3spdif_0.1.0_amd64.deb
+./scripts/package.sh flatpak   # any distro:    dist/org.ac3spdif.App.flatpak
+
+sudo dnf install ./dist/ac3spdif-*.rpm
+sudo apt install ./dist/ac3spdif_*.deb
+flatpak install --user ./dist/org.ac3spdif.App.flatpak
+```
+
+The RPM and the deb are built in Fedora and Ubuntu containers, so only podman
+is needed on the host (`FEDORA=45` or `UBUNTU=22.04` target another release).
+Both declare every library they link, so `dnf` and `apt` install ffmpeg's
+libraries, PipeWire, ALSA, GLib, GTK and the appindicator alongside; nothing
+beyond the standard repositories is needed. The Flatpak is built with
+`org.flatpak.Builder` from Flathub against the freedesktop 26.08 runtime,
+whose ffmpeg carries the AC-3 and DTS encoders and the IEC 61937 muxer, and
+builds the appindicator stack in, so the bundle is self-contained. The
+packaging lives in `packaging/fedora`, `packaging/debian` and
+`packaging/flatpak`.
+
+Inside the Flatpak the command line is
+`flatpak run --command=ac3spdif org.ac3spdif.App …` and the probe is
+`--command=ac3spdif-probe`. The sandbox has the PipeWire socket, the sound
+devices for the direct ALSA transport, the D-Bus names for the tray icon and
+the device reservation protocol, and what service mode needs (below). A
+`--dump` file has to land somewhere the sandbox can write, such as
+`~/.var/app/org.ac3spdif.App/`, unless you add `--filesystem=home` to the run.
+
 ## Use
 
 ```sh
@@ -406,6 +440,11 @@ belong to the logged-in session. The app's *Run as Background Service* writes
 the same unit with the current settings, and *Launch App at Login* is the
 other thing, an autostart entry for the app itself. Only the service survives a
 reboot on its own.
+
+The app manages the unit through systemd's D-Bus API and writes it, like the
+autostart entry, to the host's config directory, so both also work from inside
+the Flatpak, where the unit runs `flatpak run --command=ac3spdif
+org.ac3spdif.App …` with the chosen settings.
 
 ## Verified
 

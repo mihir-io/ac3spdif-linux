@@ -71,7 +71,6 @@ private:
     bool encode_block(const float* interleaved);
     size_t read_blocking(uint8_t* destination, size_t offset, size_t byte_count);
     int on_write(const uint8_t* data, int size);
-    static int write_trampoline(void* opaque, const uint8_t* data, int size);
     void fail(const std::string& message);
 
     Config config_;

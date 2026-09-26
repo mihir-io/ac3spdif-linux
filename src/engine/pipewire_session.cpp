@@ -573,6 +573,23 @@ void PwSession::Impl::destroy_proxies() {
 
 // --- PwSession ---------------------------------------------------------------
 
+namespace {
+
+// media.category = Manager is what a mixer or patchbay declares, and it is
+// what this client is: it creates a sink and makes it the default. It also
+// matters inside a Flatpak, where WirePlumber fences a sandboxed client off
+// from writing metadata (so from changing the default sink) unless the client
+// declares itself a manager. Outside a sandbox every local client already
+// has full access.
+pw_properties* client_properties() {
+    return pw_properties_new(PW_KEY_APP_NAME, "ac3spdif",
+                             PW_KEY_APP_ID, "org.ac3spdif",
+                             PW_KEY_APP_ICON_NAME, "ac3spdif",
+                             PW_KEY_MEDIA_CATEGORY, "Manager", nullptr);
+}
+
+}  // namespace
+
 PwSession::Lock::Lock(PwSession& s) : session(s) { pw_thread_loop_lock(s.loop_); }
 PwSession::Lock::~Lock() { pw_thread_loop_unlock(session.loop_); }
 
@@ -586,11 +603,7 @@ PwSession::PwSession() : impl_(std::make_unique<Impl>()) {
     if (pw_thread_loop_start(loop_) < 0) throw Failure("cannot start the PipeWire thread loop");
 
     auto guard = lock();
-    core_ = pw_context_connect(context_,
-                               pw_properties_new(PW_KEY_APP_NAME, "ac3spdif",
-                                                 PW_KEY_APP_ID, "org.ac3spdif",
-                                                 PW_KEY_APP_ICON_NAME, "ac3spdif", nullptr),
-                               0);
+    core_ = pw_context_connect(context_, client_properties(), 0);
     if (!core_)
         throw Failure(fmt("cannot connect to PipeWire: {} (is the pipewire user service running?)",
                           std::strerror(errno)));
